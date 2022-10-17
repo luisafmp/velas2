@@ -1,0 +1,199 @@
+Documentación:
+
+1. Se bajaron las velas de bitcoin(btc) y de la altcoin matic desde el 31 de diciembre de 2019 a las 7 de la noche porque el día internacional empieza en nuestro horario a las 7 de la noche del día anterior.
+
+2. Se bajaron velas de temporalidades de 4 horas, 15 minutos y 1 minuto, escogí estas porque son parte de las temporalidades más importantes para calcular indicadores para trading y son las que los traders usan regularmente para evaluar el comportamiento del mercado.
+
+
+3. las columnas de los archivos de velas de 4 horas son:
+
+	ID									NUMBER
+	OPEN_TIME							NUMBER
+	OPEN								NUMBER
+	HIGH								NUMBER
+	LOW									NUMBER
+	CLOSE								NUMBER
+	VOLUME								NUMBER
+	CLOSE_TIME							NUMBER
+	QUOTE_ASSET_VOLUME					NUMBER
+	NUMBER_OF_TRADES					NUMBER
+	TAKER_BUY_BASE_ASSET_VOLUME			NUMBER
+	TAKER_BUY_QUOTE_ASSET_VOLUME		NUMBER
+	CAN_BE_IGNORED						NUMBER
+	HORA_INICIAL						VARCHAR2(30 BYTE)
+	HORA_FINAL							VARCHAR2(30 BYTE)
+	SMA7								NUMBER
+	SMA25								NUMBER
+	SMA99								NUMBER
+	RSI14								NUMBER
+	BOLL_UPPER							NUMBER
+	BOLL_MIDDLE							NUMBER
+	BOLL_LOWER							NUMBER
+	MACD								NUMBER
+	MACDSIGNAL							NUMBER
+	MACDHIST							NUMBER
+
+
+3. las columnas de los archivos de velas de 15 minutos son:
+
+	ID									NUMBER
+	OPEN_TIME							NUMBER
+	OPEN								NUMBER
+	HIGH								NUMBER
+	LOW									NUMBER
+	CLOSE								NUMBER
+	VOLUME								NUMBER
+	CLOSE_TIME							NUMBER
+	QUOTE_ASSET_VOLUME					NUMBER
+	NUMBER_OF_TRADES					NUMBER
+	TAKER_BUY_BASE_ASSET_VOLUME			NUMBER
+	TAKER_BUY_QUOTE_ASSET_VOLUME		NUMBER
+	CAN_BE_IGNORED						NUMBER
+	HORA_INICIAL						VARCHAR2(30 BYTE)
+	HORA_FINAL							VARCHAR2(30 BYTE)
+	BTC_4_HOUR_ID						NUMBER
+	SMA7								NUMBER
+	SMA25								NUMBER
+	SMA99								NUMBER
+	RSI14								NUMBER
+	BOLL_UPPER							NUMBER
+	BOLL_MIDDLE							NUMBER
+	BOLL_LOWER							NUMBER
+	MACD								NUMBER
+	MACDSIGNAL							NUMBER
+	MACDHIST							NUMBER
+
+3. las columnas de los archivos de velas de 1 minuto son:
+
+	ID									NUMBER
+	OPEN_TIME							NUMBER
+	OPEN								NUMBER
+	HIGH								NUMBER
+	LOW									NUMBER
+	CLOSE								NUMBER
+	VOLUME								NUMBER
+	CLOSE_TIME							NUMBER
+	QUOTE_ASSET_VOLUME					NUMBER
+	NUMBER_OF_TRADES					NUMBER
+	TAKER_BUY_BASE_ASSET_VOLUME			NUMBER
+	TAKER_BUY_QUOTE_ASSET_VOLUME		NUMBER
+	CAN_BE_IGNORED						NUMBER
+	HORA_INICIAL						VARCHAR2(30 BYTE)
+	HORA_FINAL							VARCHAR2(30 BYTE)
+	BTC_4_HOUR_ID						NUMBER
+	BTC_15_MIN_ID						NUMBER
+	SMA7								NUMBER
+	SMA25								NUMBER
+	SMA99								NUMBER
+	RSI14								NUMBER
+	BOLL_UPPER							NUMBER
+	BOLL_MIDDLE							NUMBER
+	BOLL_LOWER							NUMBER
+	MACD								NUMBER
+	MACDSIGNAL							NUMBER
+	MACDHIST							NUMBER
+
+4. los campos hora_inicial y hora_final son la fecha calendario calculada a partir del timestamp, es información redundante pero lo hice para que nos brinde facilidad en el análisis.
+
+4. La temporalidad de 15 minutos tiene un campo extra llamado BTC_4_HOUR_ID que lo relaciona con la tabla de temporalidad 4 horas
+
+	BTC_4_HOUR_ID						NUMBER
+
+
+5. La temporalidad de 1 minuto tiene dos campos extra que la relaciona con las tablas de temporalidad 4 horas y 15 minutos, sé que la información es reduntante pero lo hice por la facilidad en la búsqueda de la información
+
+	BTC_4_HOUR_ID						NUMBER
+	BTC_15_MIN_ID						NUMBER
+
+6. Cuando se cae el servicio o están haciendo mantenimiento se crea inconsistencia en la información, bien sea porque la vela no termina a la hora indicada o porque la siguiente vela no inicia a la hora indicada. 
+Para las diferentes temporalidades las inconsistencias se encontraron en los siguientes ids (son los mismos id´s para btc y para matic):
+
+	TEMPORALIDAD 4 HORAS:
+		297 
+		690 
+		1074 
+		2133 
+		2442 
+		2850 
+		2881 
+		3540 
+		3823 
+
+	TEMPORALIDAD 15 MINUTOS:
+
+		3752 
+		4747 
+		6059 
+		11013 
+		17147 
+		32029 
+		34073 
+		34393 
+		39004 
+		41200 
+		45514 
+		45993 
+		56526 
+		61040 
+		69280 
+
+	TEMPORALIDAD 1 MINUTO:
+		
+		56280 
+		71196 
+		90868 
+		165178 
+		257188 
+		480418 
+		511066 
+		515866 
+		585027 
+		617967 
+		682677 
+		689848 
+		847843 
+		915553 
+		1039153 
+
+
+7. El archivo ods(hoja de calculo open office) tiene varias pestañas, una para cada temporalidad, permiten ver la hora final de la vela en la que se cortó el servicio y la hora incial de la vela siguiente, por eso van por pares.
+
+8. los indicadores que se calcularon con sus respectivas columnas son:
+
+	• Media móvil de 7 periodos
+		SMA7			NUMBER
+
+	• Media móvil de 25 periodos
+		SMA25			NUMBER
+
+	• Media móvil de 99 periodos 
+		SMA99			NUMBER
+
+	• RSI de 14 periodos 
+		RSI14			NUMBER
+
+	• Bandas de Bollinger para 21 periodos 
+		BOLL_UPPER		NUMBER
+		BOLL_MIDDLE		NUMBER
+		BOLL_LOWER		NUMBER
+
+	• MACD con los siguientes parámetros fastperiod=12, slowperiod=26, signalperiod=9
+		MACD			NUMBER
+		MACDSIGNAL		NUMBER
+		MACDHIST		NUMBER
+
+
+Una buena explicación de estos indicadores se encuentra en los siguientes videos:
+
+Medias móviles SMA 
+	https://www.youtube.com/watch?v=M8M7lWlwiYE&list=PLBiri0Pzfmvb2nSAom9oXGPg4yEpkMbdh&index=26
+
+RSI
+	https://www.youtube.com/watch?v=zF-PN3TanN8&list=PLBiri0Pzfmvb2nSAom9oXGPg4yEpkMbdh&index=27
+
+Bandas de Bollinger
+	https://www.youtube.com/watch?v=SerccO53BRE&list=PLBiri0Pzfmvb2nSAom9oXGPg4yEpkMbdh&index=28
+
+MACD
+	https://www.youtube.com/watch?v=eJkCXZ4_TTs&list=PLBiri0Pzfmvb2nSAom9oXGPg4yEpkMbdh&index=29
+	
